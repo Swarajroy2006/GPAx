@@ -1,7 +1,7 @@
 {
   "name": "gpax",
   "version": "1.0.0",
-  "description": "MAKAUT SGPA to Percentage Calculator Online",
+  "description": "GPAx - MAKAUT SGPA/YGPA to Percentage Calculator with 3D Visualization",
   "main": "main.js",
   "scripts": {
     "dev": "vite",

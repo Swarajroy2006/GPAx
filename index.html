@@ -3,8 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GPAx - MAKAUT SGPA to Percentage Calculator</title>
+    <meta name="description" content="GPAx - Convert MAKAUT SGPA to Percentage, Calculate YGPA with interactive 3D visualization">
+    <meta name="keywords" content="MAKAUT, SGPA, YGPA, percentage calculator, grade calculator, BCA">
+    <title>GPAx - MAKAUT SGPA/YGPA to Percentage Calculator</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap');
+        
         * {
             margin: 0;
             padding: 0;
@@ -12,16 +16,430 @@
         }
         
         body {
-            overflow: hidden;
-            font-family: Arial, sans-serif;
+            font-family: 'Inter', sans-serif;
+            background: #0a0e27;
+            min-height: 100vh;
+            overflow-x: hidden;
+            color: #e0e6ed;
+        }
+        
+        #canvas-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
         }
         
         canvas {
             display: block;
         }
+        
+        .container {
+            position: relative;
+            z-index: 1;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 50px;
+            animation: fadeInDown 0.8s ease-out;
+        }
+        
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes glow {
+            0%, 100% {
+                text-shadow: 0 0 20px rgba(0, 255, 255, 0.5),
+                             0 0 40px rgba(0, 255, 255, 0.3),
+                             0 0 60px rgba(0, 255, 255, 0.2);
+            }
+            50% {
+                text-shadow: 0 0 30px rgba(0, 255, 255, 0.8),
+                             0 0 60px rgba(0, 255, 255, 0.5),
+                             0 0 90px rgba(0, 255, 255, 0.3);
+            }
+        }
+        
+        header h1 {
+            font-size: 4rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #00f5ff 0%, #00a8ff 50%, #a855f7 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 15px;
+            letter-spacing: -2px;
+            animation: glow 3s ease-in-out infinite;
+            position: relative;
+        }
+        
+        header h1::before {
+            content: 'GPAx';
+            position: absolute;
+            left: 0;
+            top: 0;
+            background: linear-gradient(135deg, #00f5ff 0%, #00a8ff 50%, #a855f7 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            filter: blur(20px);
+            opacity: 0.5;
+            z-index: -1;
+        }
+        
+        header p {
+            font-size: 1.2rem;
+            color: #8b92a8;
+            font-weight: 400;
+            letter-spacing: 1px;
+        }
+        
+        .calculator-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            width: 100%;
+            margin-bottom: 40px;
+            animation: fadeInUp 1s ease-out 0.3s both;
+        }
+        
+        .calculator-card {
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(20px);
+            border-radius: 24px;
+            padding: 35px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4),
+                        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .calculator-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, 
+                transparent, 
+                rgba(0, 245, 255, 0.1), 
+                transparent);
+            transition: left 0.6s;
+        }
+        
+        .calculator-card:hover::before {
+            left: 100%;
+        }
+        
+        .calculator-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 20px 60px rgba(0, 245, 255, 0.3),
+                        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+            border-color: rgba(0, 245, 255, 0.5);
+        }
+        
+        .calculator-card h2 {
+            background: linear-gradient(135deg, #00f5ff 0%, #a855f7 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid rgba(0, 245, 255, 0.3);
+            letter-spacing: -0.5px;
+        }
+        
+        .input-group {
+            margin-bottom: 20px;
+        }
+        
+        .input-group label {
+            display: block;
+            color: #b4bcd0;
+            font-weight: 600;
+            margin-bottom: 10px;
+            font-size: 0.95rem;
+            letter-spacing: 0.3px;
+        }
+        
+        .input-group input {
+            width: 100%;
+            padding: 16px 20px;
+            background: rgba(30, 41, 59, 0.6);
+            border: 2px solid rgba(100, 116, 139, 0.3);
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 600;
+            color: #00f5ff;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .input-group input::placeholder {
+            color: #475569;
+            font-weight: 400;
+        }
+        
+        .input-group input:focus {
+            outline: none;
+            background: rgba(30, 41, 59, 0.9);
+            border-color: #00f5ff;
+            box-shadow: 0 0 0 4px rgba(0, 245, 255, 0.1),
+                        0 0 20px rgba(0, 245, 255, 0.3);
+            transform: translateY(-2px);
+        }
+        
+        .result-box {
+            background: linear-gradient(135deg, 
+                rgba(0, 245, 255, 0.15) 0%, 
+                rgba(168, 85, 247, 0.15) 100%);
+            border: 2px solid rgba(0, 245, 255, 0.3);
+            padding: 25px;
+            border-radius: 16px;
+            margin-top: 20px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .result-box::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, 
+                rgba(0, 245, 255, 0.1) 0%, 
+                transparent 70%);
+            animation: rotate 10s linear infinite;
+        }
+        
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .result-box:hover {
+            border-color: #00f5ff;
+            box-shadow: 0 0 30px rgba(0, 245, 255, 0.3);
+        }
+        
+        .result-box .label {
+            font-size: 0.85rem;
+            color: #8b92a8;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 8px;
+            font-weight: 600;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .result-box .value {
+            font-size: 2.8rem;
+            font-weight: 800;
+            font-family: 'JetBrains Mono', monospace;
+            background: linear-gradient(135deg, #00f5ff 0%, #a855f7 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            position: relative;
+            z-index: 1;
+            text-shadow: 0 0 30px rgba(0, 245, 255, 0.5);
+        }
+        
+        .disclaimer {
+            background: rgba(239, 68, 68, 0.1);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 30px;
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            width: 100%;
+            animation: fadeInUp 1s ease-out 0.6s both;
+        }
+        
+        .disclaimer h3 {
+            color: #fca5a5;
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 700;
+        }
+        
+        .disclaimer p {
+            color: #d1d5db;
+            line-height: 1.8;
+            font-size: 1rem;
+        }
+        
+        .disclaimer strong {
+            color: #fca5a5;
+            font-weight: 700;
+        }
+        
+        .error {
+            color: #fca5a5;
+            font-size: 0.85rem;
+            margin-top: 8px;
+            display: none;
+            font-weight: 500;
+        }
+        
+        .error.show {
+            display: block;
+            animation: shake 0.3s ease;
+        }
+        
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+        
+        footer {
+            text-align: center;
+            padding: 30px;
+            font-size: 0.95rem;
+            color: #64748b;
+            animation: fadeInUp 1s ease-out 0.9s both;
+        }
+        
+        footer p {
+            margin: 8px 0;
+        }
+        
+        footer p:first-child {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            color: #475569;
+        }
+        
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2.5rem;
+            }
+            
+            .calculator-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .container {
+                padding: 20px 15px;
+            }
+            
+            .calculator-card {
+                padding: 25px;
+            }
+            
+            .result-box .value {
+                font-size: 2.2rem;
+            }
+        }
     </style>
 </head>
 <body>
+    <div id="canvas-container"></div>
+    
+    <div class="container">
+        <header>
+            <h1>🎓 GPAx</h1>
+            <p>MAKAUT SGPA/YGPA to Percentage Calculator</p>
+        </header>
+        
+        <div class="calculator-grid">
+            <!-- SGPA to Percentage Calculator -->
+            <div class="calculator-card">
+                <h2>SGPA → Percentage</h2>
+                <div class="input-group">
+                    <label for="sgpa-input">Enter SGPA (0-10)</label>
+                    <input type="number" id="sgpa-input" placeholder="e.g., 8.5" min="0" max="10" step="0.01">
+                    <span class="error" id="sgpa-error">Please enter a valid SGPA between 0 and 10</span>
+                </div>
+                <div class="result-box">
+                    <div class="label">Percentage</div>
+                    <div class="value" id="sgpa-percentage">--%</div>
+                </div>
+            </div>
+            
+            <!-- YGPA Calculator -->
+            <div class="calculator-card">
+                <h2>YGPA Calculator</h2>
+                <div class="input-group">
+                    <label for="sgpa-odd">Odd Semester SGPA (0-10)</label>
+                    <input type="number" id="sgpa-odd" placeholder="e.g., 8.0" min="0" max="10" step="0.01">
+                    <span class="error" id="odd-error">Please enter a valid SGPA between 0 and 10</span>
+                </div>
+                <div class="input-group">
+                    <label for="sgpa-even">Even Semester SGPA (0-10)</label>
+                    <input type="number" id="sgpa-even" placeholder="e.g., 8.5" min="0" max="10" step="0.01">
+                    <span class="error" id="even-error">Please enter a valid SGPA between 0 and 10</span>
+                </div>
+                <div class="result-box">
+                    <div class="label">YGPA</div>
+                    <div class="value" id="ygpa-value">--</div>
+                </div>
+                <div class="result-box" style="margin-top: 10px;">
+                    <div class="label">Percentage</div>
+                    <div class="value" id="ygpa-percentage">--%</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="disclaimer">
+            <h3>⚠️ Important Disclaimer</h3>
+            <p>
+                This calculator provides <strong>approximate conversions</strong> based on commonly used formulas in MAKAUT and similar Indian universities. 
+                The actual percentage conversion may vary based on your university's official policy. 
+                Always verify with your institution's academic guidelines for official conversions.
+            </p>
+        </div>
+        
+        <footer>
+            <p>Formula Used: Percentage = (SGPA - 0.75) × 10 | YGPA = (Odd + Even) / 2</p>
+            <p>© 2026 GPAx - Built for MAKAUT Students</p>
+        </footer>
+    </div>
+    
     <script type="module" src="/main.js"></script>
 </body>
 </html>

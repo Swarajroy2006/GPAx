@@ -1,6 +1,21 @@
-# GPAx
+# 🎓 GPAx
 
-MAKAUT SGPA to Percentage Calculator Online - A Three.js powered calculator.
+MAKAUT SGPA/YGPA to Percentage Calculator with Interactive 3D Visualization
+
+## Overview
+
+GPAx is a web-based academic calculator designed for Indian university students (especially MAKAUT/BCA) that:
+- Converts SGPA to Percentage
+- Calculates YGPA from Odd & Even semester SGPA
+- Converts YGPA to Percentage
+- Features interactive 3D visualization using Three.js
+- Provides real-time updates with mobile-responsive UI
+
+## Formulas Used
+
+- **SGPA → Percentage**: `(SGPA - 0.75) × 10`
+- **YGPA**: `(SGPA_odd + SGPA_even) / 2`
+- **YGPA → Percentage**: `(YGPA - 0.75) × 10`
 
 ## Getting Started
 
