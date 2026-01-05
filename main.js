@@ -237,6 +237,87 @@ function updateYGPACalculation() {
 }
 
 // ============================================
+// NOTICES FETCHING & DISPLAY
+// ============================================
+
+async function loadNotices() {
+    const container = document.getElementById('notices-container');
+    
+    try {
+        container.innerHTML = '<div class="loading">Loading notices...</div>';
+        
+        // Fetch the MAKAUT announcements page
+        const response = await fetch('https://makautwb.ac.in/page.php?id=340');
+        const html = await response.text();
+        
+        // Parse HTML to extract notices
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(html, 'text/html');
+        
+        // Extract notice links and titles
+        const links = doc.querySelectorAll('a[href*="makautwb.ac.in/datas/users/"]');
+        
+        if (links.length === 0) {
+            container.innerHTML = `
+                <div class="error-message">
+                    <p>📊 Unable to load notices at the moment</p>
+                    <p style="font-size: 0.9rem;">Visit <a href="https://makautwb.ac.in/page.php?id=340" target="_blank">MAKAUT Official Notices</a></p>
+                </div>
+            `;
+            return;
+        }
+        
+        // Get unique notices (latest 25)
+        const notices = [];
+        const seenTitles = new Set();
+        
+        links.forEach(link => {
+            const title = link.textContent.trim();
+            const href = link.getAttribute('href');
+            
+            if (title && href && !seenTitles.has(title) && title.length > 10) {
+                seenTitles.add(title);
+                notices.push({ title, href });
+                if (notices.length >= 25) return;
+            }
+        });
+        
+        if (notices.length === 0) {
+            container.innerHTML = `
+                <div class="error-message">
+                    <p>📊 No notices found</p>
+                    <p style="font-size: 0.9rem;">Visit <a href="https://makautwb.ac.in/page.php?id=340" target="_blank">MAKAUT Official Page</a></p>
+                </div>
+            `;
+            return;
+        }
+        
+        // Create notice elements
+        container.innerHTML = notices.map((notice, index) => {
+            const isNewNotice = index < 5; // Highlight first 5 as new
+            return `
+                <div class="notice-item" ${isNewNotice ? 'style="border-left-color: #00f5ff;"' : ''}>
+                    <div class="notice-title">
+                        ${notice.title}
+                        ${isNewNotice ? '<span style="color: #ff6b6b; font-size: 0.8rem; margin-left: auto;">NEW</span>' : ''}
+                    </div>
+                    <a href="${notice.href}" target="_blank" class="notice-link">📥 Download / View</a>
+                </div>
+            `;
+        }).join('');
+        
+    } catch (error) {
+        console.error('Error loading notices:', error);
+        container.innerHTML = `
+            <div class="error-message">
+                <p>⚠️ Error loading notices from MAKAUT</p>
+                <p style="font-size: 0.9rem;">Please try again later or visit <a href="https://makautwb.ac.in/page.php?id=340" target="_blank">MAKAUT Official Notices</a></p>
+            </div>
+        `;
+    }
+}
+
+// ============================================
 // PAGE NAVIGATION
 // ============================================
 
@@ -263,6 +344,11 @@ function switchPage(pageName) {
     // If on results page, update the results display
     if (pageName === 'results') {
         updateResultsPage();
+    }
+    
+    // If on notices page, load notices
+    if (pageName === 'notices') {
+        loadNotices();
     }
 }
 
