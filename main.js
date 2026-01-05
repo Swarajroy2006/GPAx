@@ -107,6 +107,7 @@ animate();
 // ============================================
 
 // Get DOM elements
+const nav = document.querySelector('nav');
 const sgpaInput = document.getElementById('sgpa-input');
 const sgpaPercentage = document.getElementById('sgpa-percentage');
 const sgpaError = document.getElementById('sgpa-error');
@@ -235,8 +236,171 @@ function updateYGPACalculation() {
     });
 }
 
-sgpaOdd.addEventListener('input', updateYGPACalculation);
-sgpaEven.addEventListener('input', updateYGPACalculation);
+// ============================================
+// PAGE NAVIGATION
+// ============================================
+
+function switchPage(pageName) {
+    // Hide all pages
+    document.querySelectorAll('.page').forEach(page => {
+        page.classList.remove('active');
+    });
+    
+    // Show target page
+    const targetPage = document.getElementById(`page-${pageName}`);
+    if (targetPage) {
+        targetPage.classList.add('active');
+    }
+    
+    // Update nav buttons
+    document.querySelectorAll('.nav-btn').forEach(btn => {
+        btn.classList.remove('active');
+        if (btn.dataset.page === pageName) {
+            btn.classList.add('active');
+        }
+    });
+    
+    // If on results page, update the results display
+    if (pageName === 'results') {
+        updateResultsPage();
+    }
+}
+
+function updateResultsPage() {
+    const sgpaInput = document.getElementById('sgpa-input');
+    const sgpaOddInput = document.getElementById('sgpa-odd');
+    const sgpaEvenInput = document.getElementById('sgpa-even');
+    
+    const sgpaValue = sgpaInput.value;
+    const oddValue = sgpaOddInput.value;
+    const evenValue = sgpaEvenInput.value;
+    
+    // Update SGPA results
+    if (sgpaValue) {
+        const sgpaPercent = ((sgpaValue - 0.75) * 10).toFixed(2);
+        document.getElementById('result-sgpa').textContent = parseFloat(sgpaValue).toFixed(2);
+        document.getElementById('result-sgpa-percent').textContent = sgpaPercent;
+    } else {
+        document.getElementById('result-sgpa').textContent = '-';
+        document.getElementById('result-sgpa-percent').textContent = '-';
+    }
+    
+    // Update YGPA results
+    if (oddValue && evenValue) {
+        const ygpa = ((parseFloat(oddValue) + parseFloat(evenValue)) / 2).toFixed(2);
+        const ygpaPercent = ((ygpa - 0.75) * 10).toFixed(2);
+        document.getElementById('result-ygpa').textContent = ygpa;
+        document.getElementById('result-ygpa-percent').textContent = ygpaPercent;
+        
+        // Update performance bar
+        const performancePercent = Math.min(parseFloat(ygpaPercent), 100);
+        const performanceBar = document.getElementById('performance-bar');
+        performanceBar.style.width = performancePercent + '%';
+        
+        // Show congratulations for good marks (>80%)
+        showCongratulations(parseFloat(ygpaPercent));
+        updatePerformanceText(parseFloat(ygpaPercent));
+    } else {
+        document.getElementById('result-ygpa').textContent = '-';
+        document.getElementById('result-ygpa-percent').textContent = '-';
+        document.getElementById('performance-bar').style.width = '0%';
+        document.getElementById('congratulations-container').innerHTML = '';
+        document.getElementById('performance-text').textContent = 'Ready to calculate...';
+    }
+}
+
+function showCongratulations(percentage) {
+    const container = document.getElementById('congratulations-container');
+    
+    let message = '';
+    let emojis = '';
+    
+    if (percentage >= 90) {
+        message = '🌟 Outstanding Performance! 🌟';
+        emojis = '🎉 ⭐ 🏆';
+    } else if (percentage >= 80) {
+        message = '🎊 Excellent Work! 🎊';
+        emojis = '🎉 ✨ 👏';
+    } else if (percentage >= 70) {
+        message = '👍 Great Job! 👍';
+        emojis = '😊 💪 👏';
+    } else if (percentage >= 60) {
+        message = '📈 Good Effort! Keep Improving 📈';
+        emojis = '💫 🚀 🎯';
+    } else {
+        container.innerHTML = '';
+        return;
+    }
+    
+    container.innerHTML = `
+        <div class="congratulations">
+            <div>
+                ${emojis.split(' ').map(e => `<span class="congratulations-emoji">${e}</span>`).join('')}
+            </div>
+            <h2>${message}</h2>
+            <p>Your performance score: <strong>${percentage.toFixed(2)}%</strong></p>
+            <p>Keep working hard to achieve your goals!</p>
+        </div>
+    `;
+}
+
+function updatePerformanceText(percentage) {
+    const textElement = document.getElementById('performance-text');
+    
+    if (percentage >= 90) {
+        textElement.textContent = '⭐ Outstanding - Exceptional performance!';
+        textElement.style.color = '#00f5ff';
+    } else if (percentage >= 80) {
+        textElement.textContent = '✨ Excellent - Keep it up!';
+        textElement.style.color = '#7eb3ff';
+    } else if (percentage >= 70) {
+        textElement.textContent = '👍 Good - On the right track!';
+        textElement.style.color = '#a8e6cf';
+    } else if (percentage >= 60) {
+        textElement.textContent = '📈 Satisfactory - Room for improvement!';
+        textElement.style.color = '#ffd93d';
+    } else {
+        textElement.textContent = '💪 Keep pushing forward!';
+        textElement.style.color = '#ff6b6b';
+    }
+}
+
+// Setup navigation event listeners
+document.querySelectorAll('.nav-btn').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        switchPage(btn.dataset.page);
+        // Close hamburger menu on mobile
+        const hamburger = document.getElementById('hamburger');
+        const navLinks = document.getElementById('nav-links');
+        if (hamburger && hamburger.classList.contains('active')) {
+            hamburger.classList.remove('active');
+            navLinks.classList.remove('active');
+        }
+    });
+});
+
+// ============================================
+// MOBILE HAMBURGER MENU
+// ============================================
+
+const hamburger = document.getElementById('hamburger');
+const navLinks = document.getElementById('nav-links');
+
+if (hamburger) {
+    hamburger.addEventListener('click', () => {
+        hamburger.classList.toggle('active');
+        navLinks.classList.toggle('active');
+    });
+    
+    // Close menu when clicking outside
+    document.addEventListener('click', (e) => {
+        if (!nav.contains(e.target)) {
+            hamburger.classList.remove('active');
+            navLinks.classList.remove('active');
+        }
+    });
+}
 
 // ============================================
 // INITIALIZATION
@@ -247,3 +411,6 @@ console.log('Formulas:');
 console.log('- SGPA → Percentage: (SGPA - 0.75) × 10');
 console.log('- YGPA: (Odd + Even) / 2');
 console.log('- YGPA → Percentage: (YGPA - 0.75) × 10');
+
+// Initialize first page as active
+switchPage('sgpa');

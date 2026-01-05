@@ -1,89 +1,178 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="GPAx - Convert MAKAUT SGPA to Percentage, Calculate YGPA with interactive 3D visualization">
+    <meta name="description"
+        content="GPAx - Convert MAKAUT SGPA to Percentage, Calculate YGPA with interactive 3D visualization">
     <meta name="keywords" content="MAKAUT, SGPA, YGPA, percentage calculator, grade calculator, BCA">
     <title>GPAx - MAKAUT SGPA/YGPA Calculator</title>
     <link rel="stylesheet" href="/style.css">
 </head>
+
 <body>
     <div id="canvas-container"></div>
-    
+
     <nav>
         <div class="nav-logo">GPAx</div>
-        <ul class="nav-links">
-            <li><a href="#sgpa">SGPA</a></li>
-            <li><a href="#ygpa">YGPA</a></li>
-            <li><a href="https://apertre.resourcio.in" target="_blank">Apertre</a></li>
+        <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        <ul class="nav-links" id="nav-links">
+            <li><a href="#sgpa" class="nav-btn active" data-page="sgpa">SGPA Converter</a></li>
+            <li><a href="#ygpa" class="nav-btn" data-page="ygpa">YGPA Calculator</a></li>
+            <li><a href="#results" class="nav-btn" data-page="results">Results</a></li>
         </ul>
+        <a href="https://github.com/swarajroy2006" target="_blank" class="github-link" title="View Source Code">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                <path
+                    d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v 3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
+            </svg>
+        </a>
     </nav>
-    
+
     <div class="container">
-        <header>
-            <div class="makaut-badge">🎓 MAKAUT Student Tool</div>
-            <h1>GPAx</h1>
-            <p>SGPA & YGPA to Percentage Calculator</p>
-        </header>
-        
-        <div class="calculator-grid">
-            <div class="calculator-card">
-                <h2>SGPA Converter</h2>
-                <div class="input-group">
-                    <label for="sgpa-input">Enter SGPA (0-10)</label>
-                    <input type="number" id="sgpa-input" placeholder="e.g., 8.5" min="0" max="10" step="0.01">
-                    <span class="error" id="sgpa-error">Please enter a valid SGPA between 0 and 10</span>
-                </div>
-                <div class="result-box">
-                    <div class="label">Percentage</div>
-                    <div class="value" id="sgpa-percentage">--%</div>
-                </div>
-            </div>
-            
-            <div class="calculator-card">
-                <h2>YGPA Calculator</h2>
-                <div class="input-group">
-                    <label for="sgpa-odd">Odd Semester SGPA (0-10)</label>
-                    <input type="number" id="sgpa-odd" placeholder="e.g., 8.0" min="0" max="10" step="0.01">
-                    <span class="error" id="odd-error">Please enter a valid SGPA between 0 and 10</span>
-                </div>
-                <div class="input-group">
-                    <label for="sgpa-even">Even Semester SGPA (0-10)</label>
-                    <input type="number" id="sgpa-even" placeholder="e.g., 8.5" min="0" max="10" step="0.01">
-                    <span class="error" id="even-error">Please enter a valid SGPA between 0 and 10</span>
-                </div>
-                <div class="result-box">
-                    <div class="label">YGPA</div>
-                    <div class="value" id="ygpa-value">--</div>
-                </div>
-                <div class="result-box result-box-margined">
-                    <div class="label">Percentage</div>
-                    <div class="value" id="ygpa-percentage">--%</div>
+        <!-- SGPA CONVERTER PAGE -->
+        <div class="page" id="page-sgpa" data-page="sgpa">
+            <header>
+                <div class="makaut-badge">📊 Convert Your Grade</div>
+                <h1>SGPA Converter</h1>
+                <p>Convert Semester GPA to Percentage</p>
+            </header>
+
+            <div class="calculator-grid">
+                <div class="calculator-card full-card">
+                    <h2>📈 SGPA Converter</h2>
+                    <div class="input-group">
+                        <label for="sgpa-input">Enter SGPA (0-10)</label>
+                        <input type="number" id="sgpa-input" placeholder="e.g., 8.5" min="0" max="10" step="0.01">
+                        <span class="error" id="sgpa-error">Please enter a valid SGPA between 0 and 10</span>
+                    </div>
+                    <div class="result-box">
+                        <div class="label">Percentage</div>
+                        <div class="value" id="sgpa-percentage">--%</div>
+                    </div>
                 </div>
             </div>
+
+            <div class="disclaimer">
+                <h3>Formula Used</h3>
+                <p>Percentage = (SGPA - 0.75) × 10</p>
+            </div>
+
+            <footer>
+                <div class="makaut-section">
+                    <p>🎓 Built for MAKAUT Students</p>
+                    <p class="footer-text-secondary">Maulana Abul Kalam Azad University of Technology</p>
+                </div>
+                <p>© 2026 GPAx • Built with React & Three.js • Made for Students
+                </p>
+                <p class="footer-credits">Made by <a href="https://swaraj.ai.in" target="_blank">Swaraj</a></p>
+            </footer>
         </div>
-        
-        <div class="disclaimer">
-            <h3>Important Note</h3>
-            <p>
-                This calculator provides <strong>approximate conversions</strong> based on commonly used formulas in MAKAUT and similar Indian universities. 
-                The actual percentage conversion may vary based on your university's official policy. 
-                Always verify with your institution's academic guidelines for official conversions.
-            </p>
-        </div>
-        
-        <footer>
-            <p>Formula: Percentage = (SGPA - 0.75) × 10 | YGPA = (Odd + Even) / 2</p>
-            <div class="makaut-section">
-                <p>🎓 Built for MAKAUT Students</p>
-                <p class="footer-text-secondary">Maulana Abul Kalam Azad University of Technology</p>
+
+        <!-- YGPA CALCULATOR PAGE -->
+        <div class="page" id="page-ygpa" data-page="ygpa">
+            <header>
+                <div class="makaut-badge">📊 Annual Performance</div>
+                <h1>YGPA Calculator</h1>
+                <p>Calculate Year Grade Point Average</p>
+            </header>
+
+            <div class="calculator-grid">
+                <div class="calculator-card full-card">
+                    <h2>📊 YGPA Calculator</h2>
+                    <div class="input-group">
+                        <label for="sgpa-odd">Odd Semester SGPA (0-10)</label>
+                        <input type="number" id="sgpa-odd" placeholder="e.g., 8.0" min="0" max="10" step="0.01">
+                        <span class="error" id="odd-error">Please enter a valid SGPA between 0 and 10</span>
+                    </div>
+                    <div class="input-group">
+                        <label for="sgpa-even">Even Semester SGPA (0-10)</label>
+                        <input type="number" id="sgpa-even" placeholder="e.g., 8.5" min="0" max="10" step="0.01">
+                        <span class="error" id="even-error">Please enter a valid SGPA between 0 and 10</span>
+                    </div>
+                    <div class="result-box">
+                        <div class="label">YGPA</div>
+                        <div class="value" id="ygpa-value">--</div>
+                    </div>
+                    <div class="result-box result-box-margined">
+                        <div class="label">Percentage</div>
+                        <div class="value" id="ygpa-percentage">--%</div>
+                    </div>
+                </div>
             </div>
-            <p>© 2026 GPAx - Community Tool</p>
-           
-        </footer>
+
+            <div class="disclaimer">
+                <h3>Formulas Used</h3>
+                <p><strong>YGPA:</strong> (Odd Semester SGPA + Even Semester SGPA) / 2</p>
+                <p><strong>Percentage:</strong> (YGPA - 0.75) × 10</p>
+            </div>
+
+            <footer>
+                <div class="makaut-section">
+                    <p>🎓 Built for MAKAUT Students</p>
+                    <p class="footer-text-secondary">Maulana Abul Kalam Azad University of Technology</p>
+                </div>
+                <p>© 2026 GPAx • Built with React & Three.js • Made for Students
+                </p>
+                <p class="footer-credits">Made by <a href="https://swaraj.ai.in" target="_blank">Swaraj</a></p>
+            </footer>
+        </div>
+
+        <!-- RESULTS PAGE -->
+        <div class="page" id="page-results" data-page="results">
+            <header>
+                <div class="makaut-badge">📊 Your Results</div>
+                <h1>Results Dashboard</h1>
+                <p>Track Your Academic Progress</p>
+            </header>
+
+            <div id="congratulations-container"></div>
+
+            <div class="results-grid">
+                <div class="result-card">
+                    <h3>📈 SGPA Summary</h3>
+                    <div class="result-content">
+                        <p><strong>Latest SGPA:</strong> <span id="result-sgpa">-</span></p>
+                        <p><strong>Percentage:</strong> <span id="result-sgpa-percent">-</span>%</p>
+                    </div>
+                </div>
+
+                <div class="result-card">
+                    <h3>📊 YGPA Summary</h3>
+                    <div class="result-content">
+                        <p><strong>YGPA:</strong> <span id="result-ygpa">-</span></p>
+                        <p><strong>Percentage:</strong> <span id="result-ygpa-percent">-</span>%</p>
+                    </div>
+                </div>
+
+                <div class="result-card full-width">
+                    <h3>🎯 Performance Metrics</h3>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="performance-bar"></div>
+                    </div>
+                    <p id="performance-text" style="text-align: center; margin-top: 10px; color: #7eb3ff;">Ready to
+                        calculate...</p>
+                </div>
+            </div>
+
+            <footer>
+                <div class="makaut-section">
+                    <p>🎓 Built for MAKAUT Students</p>
+                    <p class="footer-text-secondary">Maulana Abul Kalam Azad University of Technology</p>
+                </div>
+                <p>© 2026 GPAx • Built with React & Three.js • Made for Students
+                </p>
+                <p class="footer-credits">Made by <a href="https://swaraj.ai.in" target="_blank">Swaraj</a></p>
+            </footer>
+        </div>
     </div>
-    
+
     <script type="module" src="/main.js"></script>
 </body>
+
 </html>
