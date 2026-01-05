@@ -246,61 +246,75 @@ async function loadNotices() {
     try {
         container.innerHTML = '<div class="loading">Loading notices...</div>';
         
-        // Fetch the MAKAUT announcements page
-        const response = await fetch('https://makautwb.ac.in/page.php?id=340');
-        const html = await response.text();
+        const allNotices = [];
         
-        // Parse HTML to extract notices
-        const parser = new DOMParser();
-        const doc = parser.parseFromString(html, 'text/html');
+        // Fetch from multiple sources
+        const sources = [
+            { url: 'https://www.makautexam.net/', type: 'exam', name: 'MAKAUT Exam Portal' },
+            { url: 'https://makautwb.ac.in/page.php?id=340', type: 'general', name: 'MAKAUT Announcements' },
+            { url: 'https://makautexam.net/routine.html', type: 'exam', name: 'Exam Routine' }
+        ];
         
-        // Extract notice links and titles
-        const links = doc.querySelectorAll('a[href*="makautwb.ac.in/datas/users/"]');
+        // Fetch notices from all sources
+        for (const source of sources) {
+            try {
+                const response = await fetch(source.url);
+                const html = await response.text();
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(html, 'text/html');
+                
+                // Extract notice links
+                const links = doc.querySelectorAll('a[href*=".pdf"], a[href*="makautexam"], a[href*="makautwb"]');
+                
+                links.forEach(link => {
+                    const title = link.textContent.trim();
+                    const href = link.getAttribute('href');
+                    
+                    if (title && href && title.length > 5) {
+                        // Check if it's an exam-related notice
+                        const isExam = /exam|routine|result|grade|form.fill|enrollment|admit|ca4|ppr/i.test(title);
+                        
+                        allNotices.push({
+                            title,
+                            href: href.startsWith('http') ? href : source.url.split('/').slice(0, 3).join('/') + (href.startsWith('/') ? href : '/' + href),
+                            isExam,
+                            source: source.name,
+                            priority: isExam ? 0 : 1
+                        });
+                    }
+                });
+            } catch (error) {
+                console.log(`Could not fetch from ${source.url}:`, error);
+            }
+        }
         
-        if (links.length === 0) {
+        if (allNotices.length === 0) {
             container.innerHTML = `
                 <div class="error-message">
                     <p>📊 Unable to load notices at the moment</p>
-                    <p style="font-size: 0.9rem;">Visit <a href="https://makautwb.ac.in/page.php?id=340" target="_blank">MAKAUT Official Notices</a></p>
+                    <p style="font-size: 0.9rem;">Visit <a href="https://www.makautexam.net/" target="_blank">MAKAUT Exam Portal</a> or <a href="https://makautwb.ac.in/page.php?id=340" target="_blank">MAKAUT Announcements</a></p>
                 </div>
             `;
             return;
         }
         
-        // Get unique notices (latest 25)
-        const notices = [];
-        const seenTitles = new Set();
-        
-        links.forEach(link => {
-            const title = link.textContent.trim();
-            const href = link.getAttribute('href');
-            
-            if (title && href && !seenTitles.has(title) && title.length > 10) {
-                seenTitles.add(title);
-                notices.push({ title, href });
-                if (notices.length >= 25) return;
-            }
-        });
-        
-        if (notices.length === 0) {
-            container.innerHTML = `
-                <div class="error-message">
-                    <p>📊 No notices found</p>
-                    <p style="font-size: 0.9rem;">Visit <a href="https://makautwb.ac.in/page.php?id=340" target="_blank">MAKAUT Official Page</a></p>
-                </div>
-            `;
-            return;
-        }
+        // Remove duplicates and sort by priority (exam first)
+        const uniqueNotices = Array.from(
+            new Map(allNotices.map(n => [n.title, n])).values()
+        ).sort((a, b) => a.priority - b.priority).slice(0, 30);
         
         // Create notice elements
-        container.innerHTML = notices.map((notice, index) => {
-            const isNewNotice = index < 5; // Highlight first 5 as new
+        container.innerHTML = uniqueNotices.map((notice, index) => {
+            const isNew = index < 8;
+            const badge = notice.isExam ? '📝 EXAM' : '📌';
             return `
-                <div class="notice-item" ${isNewNotice ? 'style="border-left-color: #00f5ff;"' : ''}>
+                <div class="notice-item" ${notice.isExam ? 'style="border-left-color: #ff6b6b;"' : ''}>
                     <div class="notice-title">
+                        <span style="color: ${notice.isExam ? '#ff6b6b' : '#00f5ff'}; margin-right: 8px; font-size: 0.9rem; font-weight: bold;">${badge}</span>
                         ${notice.title}
-                        ${isNewNotice ? '<span style="color: #ff6b6b; font-size: 0.8rem; margin-left: auto;">NEW</span>' : ''}
+                        ${isNew ? '<span style="color: #ffd93d; font-size: 0.7rem; margin-left: auto; background: rgba(255,217,61,0.2); padding: 2px 6px; border-radius: 4px;">NEW</span>' : ''}
                     </div>
+                    <div style="font-size: 0.8rem; color: #7eb3ff; margin: 8px 0;">📍 ${notice.source}</div>
                     <a href="${notice.href}" target="_blank" class="notice-link">📥 Download / View</a>
                 </div>
             `;
@@ -310,8 +324,8 @@ async function loadNotices() {
         console.error('Error loading notices:', error);
         container.innerHTML = `
             <div class="error-message">
-                <p>⚠️ Error loading notices from MAKAUT</p>
-                <p style="font-size: 0.9rem;">Please try again later or visit <a href="https://makautwb.ac.in/page.php?id=340" target="_blank">MAKAUT Official Notices</a></p>
+                <p>⚠️ Error loading notices</p>
+                <p style="font-size: 0.9rem;">Visit <a href="https://www.makautexam.net/" target="_blank">MAKAUT Exam Portal</a></p>
             </div>
         `;
     }

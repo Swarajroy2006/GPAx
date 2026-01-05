@@ -455,11 +455,13 @@ footer a:hover {
     display: flex;
     align-items: center;
     gap: 10px;
+    flex-wrap: wrap;
 }
 
 .notice-title::before {
     content: "→";
     font-size: 1.3rem;
+    flex-shrink: 0;
 }
 
 .notice-link {
