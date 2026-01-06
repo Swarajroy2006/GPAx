@@ -236,6 +236,9 @@ function updateYGPACalculation() {
     });
 }
 
+sgpaOdd.addEventListener('input', updateYGPACalculation);
+sgpaEven.addEventListener('input', updateYGPACalculation);
+
 // ============================================
 // NOTICES FETCHING & DISPLAY
 // ============================================
@@ -284,7 +287,7 @@ async function loadNotices() {
                     }
                 });
             } catch (error) {
-                console.log(`Could not fetch from ${source.url}:`, error);
+                // Skip failed sources silently
             }
         }
         
@@ -505,12 +508,6 @@ if (hamburger) {
 // ============================================
 // INITIALIZATION
 // ============================================
-
-console.log('🎓 GPAx Calculator Initialized');
-console.log('Formulas:');
-console.log('- SGPA → Percentage: (SGPA - 0.75) × 10');
-console.log('- YGPA: (Odd + Even) / 2');
-console.log('- YGPA → Percentage: (YGPA - 0.75) × 10');
 
 // Initialize first page as active
 switchPage('sgpa');
