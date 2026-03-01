@@ -119,6 +119,29 @@ const ygpaPercentage = document.getElementById('ygpa-percentage');
 const oddError = document.getElementById('odd-error');
 const evenError = document.getElementById('even-error');
 
+const midsemSemester = document.getElementById('midsem-semester');
+const midsemSgpaInputs = document.getElementById('midsem-sgpa-inputs');
+const midsemCalculateBtn = document.getElementById('midsem-calculate');
+const midsemResetBtn = document.getElementById('midsem-reset');
+const midsemError = document.getElementById('midsem-error');
+const midsemAverageGrade = document.getElementById('midsem-average-grade');
+const midsemOverallPercentage = document.getElementById('midsem-overall-percentage');
+
+const dgpaCourse = document.getElementById('dgpa-course');
+const dgpaY1 = document.getElementById('dgpa-y1');
+const dgpaY2 = document.getElementById('dgpa-y2');
+const dgpaY3 = document.getElementById('dgpa-y3');
+const dgpaY4 = document.getElementById('dgpa-y4');
+const dgpaError = document.getElementById('dgpa-error');
+const dgpaValue = document.getElementById('dgpa-value');
+const dgpaPercentage = document.getElementById('dgpa-percentage');
+
+const cgpaSemesterCount = document.getElementById('cgpa-semester-count');
+const cgpaRows = document.getElementById('cgpa-rows');
+const cgpaError = document.getElementById('cgpa-error');
+const cgpaValue = document.getElementById('cgpa-value');
+const cgpaPercentage = document.getElementById('cgpa-percentage');
+
 // ============================================
 // CONVERSION FORMULAS
 // ============================================
@@ -238,6 +261,307 @@ function updateYGPACalculation() {
 
 sgpaOdd.addEventListener('input', updateYGPACalculation);
 sgpaEven.addEventListener('input', updateYGPACalculation);
+
+// ============================================
+// MID SEM MARKS CALCULATOR
+// ============================================
+
+function getMidSemAverageGrade(averageSGPA) {
+    if (averageSGPA >= 9) {
+        return 'O';
+    }
+    if (averageSGPA >= 8) {
+        return 'E';
+    }
+    if (averageSGPA >= 7) {
+        return 'A';
+    }
+    if (averageSGPA >= 6) {
+        return 'B';
+    }
+    if (averageSGPA >= 5) {
+        return 'C';
+    }
+    if (averageSGPA >= 4) {
+        return 'D';
+    }
+    return 'F';
+}
+
+function createMidSemRows() {
+    const semesterCount = parseInt(midsemSemester.value, 10);
+    const rows = [];
+
+    for (let semester = 1; semester <= semesterCount; semester++) {
+        rows.push(`
+            <div class="midsem-row">
+                <label for="midsem-sgpa-${semester}">Sem ${semester}:</label>
+                <input type="number" id="midsem-sgpa-${semester}" class="midsem-sgpa" min="0" max="10" step="0.01" placeholder="e.g., 8.2">
+            </div>
+        `);
+    }
+
+    midsemSgpaInputs.innerHTML = rows.join('');
+}
+
+function resetMidSemResult() {
+    midsemError.classList.remove('show');
+    midsemAverageGrade.textContent = '--';
+    midsemOverallPercentage.textContent = '--%';
+}
+
+function updateMidSemCalculation() {
+    const semesterInputs = midsemSgpaInputs.querySelectorAll('.midsem-sgpa');
+    let total = 0;
+
+    for (const input of semesterInputs) {
+        const inputValue = input.value;
+
+        if (!inputValue || !isValidGPA(inputValue)) {
+            midsemError.classList.add('show');
+            midsemAverageGrade.textContent = '--';
+            midsemOverallPercentage.textContent = '--%';
+            return;
+        }
+
+        total += parseFloat(inputValue);
+    }
+
+    const averageSGPA = total / semesterInputs.length;
+    const percentage = sgpaToPercentage(averageSGPA);
+    const averageGrade = getMidSemAverageGrade(averageSGPA);
+
+    midsemError.classList.remove('show');
+    midsemAverageGrade.textContent = averageGrade;
+    midsemOverallPercentage.textContent = percentage.toFixed(2) + '%';
+
+    rotationSpeed = 0.005 + (percentage / 1000);
+    scaleMultiplier = 0.8 + (percentage / 200);
+}
+
+if (midsemSemester && midsemSgpaInputs && midsemCalculateBtn && midsemResetBtn) {
+    midsemSemester.addEventListener('change', () => {
+        createMidSemRows();
+        resetMidSemResult();
+    });
+
+    midsemCalculateBtn.addEventListener('click', updateMidSemCalculation);
+
+    midsemResetBtn.addEventListener('click', () => {
+        createMidSemRows();
+        resetMidSemResult();
+    });
+
+    createMidSemRows();
+    resetMidSemResult();
+}
+
+// ============================================
+// DGPA CALCULATOR
+// ============================================
+
+const dgpaInputMap = {
+    y1: dgpaY1,
+    y2: dgpaY2,
+    y3: dgpaY3,
+    y4: dgpaY4
+};
+
+const dgpaRequirements = {
+    '4year': ['y1', 'y2', 'y3', 'y4'],
+    lateral: ['y2', 'y3', 'y4'],
+    '3year': ['y1', 'y2', 'y3'],
+    '2year': ['y1', 'y2'],
+    '1year': ['y1']
+};
+
+function setDGPAVisibleInputs() {
+    const selectedCourse = dgpaCourse.value;
+    const requiredKeys = dgpaRequirements[selectedCourse] || [];
+
+    document.querySelectorAll('.dgpa-input').forEach(group => {
+        const key = group.dataset.key;
+        if (requiredKeys.includes(key)) {
+            group.classList.remove('hidden-field');
+        } else {
+            group.classList.add('hidden-field');
+        }
+    });
+}
+
+function calculateDGPAByCourse(course, values) {
+    if (course === '4year') {
+        return (values.y1 + values.y2 + (1.5 * values.y3) + (1.5 * values.y4)) / 5;
+    }
+    if (course === 'lateral') {
+        return (values.y2 + (1.5 * values.y3) + (1.5 * values.y4)) / 4;
+    }
+    if (course === '3year') {
+        return (values.y1 + values.y2 + values.y3) / 3;
+    }
+    if (course === '2year') {
+        return (values.y1 + values.y2) / 2;
+    }
+    return values.y1;
+}
+
+function updateDGPACalculation() {
+    const selectedCourse = dgpaCourse.value;
+    const requiredKeys = dgpaRequirements[selectedCourse] || [];
+    const values = {};
+
+    let hasInvalidInput = false;
+    let hasMissingInput = false;
+
+    requiredKeys.forEach(key => {
+        const input = dgpaInputMap[key];
+        const inputValue = input.value;
+
+        if (!inputValue) {
+            hasMissingInput = true;
+            return;
+        }
+
+        if (!isValidGPA(inputValue)) {
+            hasInvalidInput = true;
+            return;
+        }
+
+        values[key] = parseFloat(inputValue);
+    });
+
+    if (hasInvalidInput) {
+        dgpaError.classList.add('show');
+        dgpaValue.textContent = '--';
+        dgpaPercentage.textContent = '--%';
+        return;
+    }
+
+    dgpaError.classList.remove('show');
+
+    if (hasMissingInput) {
+        dgpaValue.textContent = '--';
+        dgpaPercentage.textContent = '--%';
+        return;
+    }
+
+    const dgpa = calculateDGPAByCourse(selectedCourse, values);
+    const percentage = sgpaToPercentage(dgpa);
+
+    dgpaValue.textContent = dgpa.toFixed(2);
+    dgpaPercentage.textContent = percentage.toFixed(2) + '%';
+
+    rotationSpeed = 0.005 + (percentage / 1000);
+    scaleMultiplier = 0.8 + (percentage / 200);
+}
+
+if (dgpaCourse) {
+    dgpaCourse.addEventListener('change', () => {
+        setDGPAVisibleInputs();
+        updateDGPACalculation();
+    });
+
+    Object.values(dgpaInputMap).forEach(input => {
+        input.addEventListener('input', updateDGPACalculation);
+    });
+
+    setDGPAVisibleInputs();
+}
+
+// ============================================
+// CGPA CALCULATOR
+// ============================================
+
+function createCGPASemesterRows() {
+    const semesterCount = parseInt(cgpaSemesterCount.value, 10);
+    const rowItems = [];
+
+    for (let index = 1; index <= semesterCount; index++) {
+        rowItems.push(`
+            <div class="cgpa-row">
+                <div class="cgpa-row-title">Semester ${index}</div>
+                <div class="cgpa-row-inputs">
+                    <div class="input-group no-margin">
+                        <label for="credit-index-${index}">Credit Index</label>
+                        <input type="number" id="credit-index-${index}" class="cgpa-credit-index" data-sem="${index}" min="0" step="0.01" placeholder="e.g., 180">
+                    </div>
+                    <div class="input-group no-margin">
+                        <label for="credits-${index}">Credits</label>
+                        <input type="number" id="credits-${index}" class="cgpa-credits" data-sem="${index}" min="0" step="0.01" placeholder="e.g., 24">
+                    </div>
+                </div>
+            </div>
+        `);
+    }
+
+    cgpaRows.innerHTML = rowItems.join('');
+}
+
+function updateCGPACalculation() {
+    const creditIndexInputs = cgpaRows.querySelectorAll('.cgpa-credit-index');
+    const creditInputs = cgpaRows.querySelectorAll('.cgpa-credits');
+
+    let totalCreditIndex = 0;
+    let totalCredits = 0;
+    let hasMissingInput = false;
+    let hasInvalidInput = false;
+
+    creditIndexInputs.forEach((creditIndexInput, index) => {
+        const creditsInput = creditInputs[index];
+        const creditIndexValue = creditIndexInput.value;
+        const creditsValue = creditsInput.value;
+
+        if (!creditIndexValue || !creditsValue) {
+            hasMissingInput = true;
+            return;
+        }
+
+        const creditIndex = parseFloat(creditIndexValue);
+        const credits = parseFloat(creditsValue);
+
+        if (isNaN(creditIndex) || isNaN(credits) || creditIndex < 0 || credits <= 0) {
+            hasInvalidInput = true;
+            return;
+        }
+
+        totalCreditIndex += creditIndex;
+        totalCredits += credits;
+    });
+
+    if (hasInvalidInput || (hasMissingInput && totalCreditIndex > 0)) {
+        cgpaError.classList.add('show');
+    } else {
+        cgpaError.classList.remove('show');
+    }
+
+    if (hasMissingInput || hasInvalidInput || totalCredits <= 0) {
+        cgpaValue.textContent = '--';
+        cgpaPercentage.textContent = '--%';
+        return;
+    }
+
+    const cgpa = totalCreditIndex / totalCredits;
+    const percentage = sgpaToPercentage(cgpa);
+
+    cgpaValue.textContent = cgpa.toFixed(2);
+    cgpaPercentage.textContent = percentage.toFixed(2) + '%';
+
+    rotationSpeed = 0.005 + (percentage / 1000);
+    scaleMultiplier = 0.8 + (percentage / 200);
+}
+
+if (cgpaSemesterCount && cgpaRows) {
+    cgpaSemesterCount.addEventListener('change', () => {
+        createCGPASemesterRows();
+        cgpaError.classList.remove('show');
+        cgpaValue.textContent = '--';
+        cgpaPercentage.textContent = '--%';
+    });
+
+    cgpaRows.addEventListener('input', updateCGPACalculation);
+
+    createCGPASemesterRows();
+}
 
 // ============================================
 // NOTICES FETCHING & DISPLAY

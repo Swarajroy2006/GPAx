@@ -24,6 +24,8 @@
         <ul class="nav-links" id="nav-links">
             <li><a href="#sgpa" class="nav-btn active" data-page="sgpa">SGPA Converter</a></li>
             <li><a href="#ygpa" class="nav-btn" data-page="ygpa">YGPA Calculator</a></li>
+            <li><a href="#midsem" class="nav-btn" data-page="midsem">Mid Sem Grade</a></li>
+            <li><a href="#dgpa" class="nav-btn" data-page="dgpa">DGPA Calculator</a></li>
             <li><a href="#results" class="nav-btn" data-page="results">Results</a></li>
             <li><a href="#notices" class="nav-btn" data-page="notices">Notices</a></li>
         </ul>
@@ -120,6 +122,148 @@
                 </div>
                 <p>© 2026 GPAx • Built with React & Three.js • Made for Students
                 </p>
+                <p class="footer-credits">Made by <a href="https://swaraj.ai.in" target="_blank">Swaraj</a></p>
+            </footer>
+        </div>
+
+        <!-- MID SEM GRADE CALCULATOR PAGE -->
+        <div class="page" id="page-midsem" data-page="midsem">
+            <header>
+                <div class="makaut-badge">Internal Assessment</div>
+                <h1>Mid Sem Marks Percentage Calculator</h1>
+                <p>Calculate Average Grade and Overall Percentage from Semester SGPAs</p>
+            </header>
+
+            <div class="calculator-grid">
+                <div class="calculator-card full-card">
+                    <h2>Upto Sem Marks Calculator</h2>
+                    <div class="input-group">
+                        <label for="midsem-semester">Select Semester Upto</label>
+                        <select id="midsem-semester">
+                            <option value="1">1st Semester</option>
+                            <option value="2">2nd Semester</option>
+                            <option value="3">3rd Semester</option>
+                            <option value="4">4th Semester</option>
+                            <option value="5">5th Semester</option>
+                            <option value="6" selected>6th Semester</option>
+                            <option value="7">7th Semester</option>
+                            <option value="8">8th Semester</option>
+                            <option value="9">9th Semester</option>
+                            <option value="10">10th Semester</option>
+                        </select>
+                    </div>
+
+                    <div class="midsem-frame">
+                        <h3>Put The SGPAs</h3>
+                        <div id="midsem-sgpa-inputs" class="midsem-sgpa-inputs"></div>
+                    </div>
+
+                    <span class="error" id="midsem-error">Please enter valid SGPA values between 0 and 10 for all semesters</span>
+
+                    <div class="midsem-actions">
+                        <button id="midsem-calculate" class="midsem-btn midsem-btn-calc" type="button">Calculate</button>
+                        <button id="midsem-reset" class="midsem-btn midsem-btn-reset" type="button">Reset</button>
+                    </div>
+
+                    <div class="result-grid single-result-grid">
+                        <div class="result-box compact midsem-result-box">
+                            <div class="label">Average Grade</div>
+                            <div class="value compact-value" id="midsem-average-grade">--</div>
+                        </div>
+                        <div class="result-box compact midsem-result-box">
+                            <div class="label">Overall Percentage</div>
+                            <div class="value compact-value" id="midsem-overall-percentage">--%</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="disclaimer">
+                <h3>How it Works</h3>
+                <p><strong>Step 1:</strong> Select your semester upto</p>
+                <p><strong>Step 2:</strong> Put all previous semester SGPAs</p>
+                <p><strong>Step 3:</strong> Get your average grade and overall percentage</p>
+                <p><strong>Formula:</strong> Average SGPA = (Sum of selected SGPAs) / Number of semesters</p>
+                <p><strong>Percentage:</strong> (Average SGPA - 0.75) × 10</p>
+            </div>
+
+            <footer>
+                <div class="makaut-section">
+                    <p>Built for MAKAUT Students</p>
+                    <p class="footer-text-secondary">Maulana Abul Kalam Azad University of Technology</p>
+                </div>
+                <p>© 2026 GPAx • Built with React & Three.js • Made for Students</p>
+                <p class="footer-credits">Made by <a href="https://swaraj.ai.in" target="_blank">Swaraj</a></p>
+            </footer>
+        </div>
+
+        <!-- DGPA CALCULATOR PAGE -->
+        <div class="page" id="page-dgpa" data-page="dgpa">
+            <header>
+                <div class="makaut-badge">Degree Performance</div>
+                <h1>DGPA Calculator</h1>
+                <p>Calculate DGPA and Percentage from Year GPAs</p>
+            </header>
+
+            <div class="calculator-grid">
+                <div class="calculator-card full-card">
+                    <h2>DGPA Calculator</h2>
+                    <div class="input-group">
+                        <label for="dgpa-course">Course Type</label>
+                        <select id="dgpa-course">
+                            <option value="4year">4 Year Degree Course</option>
+                            <option value="lateral">Lateral Entry Students</option>
+                            <option value="3year">3 Year Degree Course</option>
+                            <option value="2year">2 Year Degree Course</option>
+                            <option value="1year">1 Year Degree Course</option>
+                        </select>
+                    </div>
+
+                    <div class="input-group dgpa-input" data-key="y1">
+                        <label for="dgpa-y1">YGPA 1 (0-10)</label>
+                        <input type="number" id="dgpa-y1" placeholder="e.g., 8.1" min="0" max="10" step="0.01">
+                    </div>
+                    <div class="input-group dgpa-input" data-key="y2">
+                        <label for="dgpa-y2">YGPA 2 (0-10)</label>
+                        <input type="number" id="dgpa-y2" placeholder="e.g., 8.3" min="0" max="10" step="0.01">
+                    </div>
+                    <div class="input-group dgpa-input" data-key="y3">
+                        <label for="dgpa-y3">YGPA 3 (0-10)</label>
+                        <input type="number" id="dgpa-y3" placeholder="e.g., 8.5" min="0" max="10" step="0.01">
+                    </div>
+                    <div class="input-group dgpa-input" data-key="y4">
+                        <label for="dgpa-y4">YGPA 4 (0-10)</label>
+                        <input type="number" id="dgpa-y4" placeholder="e.g., 8.7" min="0" max="10" step="0.01">
+                    </div>
+                    <span class="error" id="dgpa-error">Please enter valid YGPA values between 0 and 10</span>
+
+                    <div class="result-box">
+                        <div class="label">DGPA</div>
+                        <div class="value" id="dgpa-value">--</div>
+                    </div>
+                    <div class="result-box result-box-margined">
+                        <div class="label">Percentage</div>
+                        <div class="value" id="dgpa-percentage">--%</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="disclaimer">
+                <h3>Formulas Used</h3>
+                <p><strong>4 Year:</strong> (YGPA1 + YGPA2 + 1.5 × YGPA3 + 1.5 × YGPA4) / 5</p>
+                <p><strong>Lateral Entry:</strong> (YGPA2 + 1.5 × YGPA3 + 1.5 × YGPA4) / 4</p>
+                <p><strong>3 Year:</strong> (YGPA1 + YGPA2 + YGPA3) / 3</p>
+                <p><strong>2 Year:</strong> (YGPA1 + YGPA2) / 2</p>
+                <p><strong>1 Year:</strong> YGPA1</p>
+                <p><strong>Percentage:</strong> (DGPA - 0.75) × 10</p>
+            </div>
+
+            <footer>
+                <div class="makaut-section">
+                    <p>Built for MAKAUT Students</p>
+                    <p class="footer-text-secondary">Maulana Abul Kalam Azad University of Technology</p>
+                </div>
+                <p>© 2026 GPAx • Built with React & Three.js • Made for Students</p>
                 <p class="footer-credits">Made by <a href="https://swaraj.ai.in" target="_blank">Swaraj</a></p>
             </footer>
         </div>

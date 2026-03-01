@@ -16,6 +16,9 @@ Formerly known as **WBUT** (West Bengal University of Technology), MAKAUT serves
 
 ✨ **Instant SGPA → Percentage Conversion**  
 📊 **Calculate YGPA from Odd & Even Semester SGPA**  
+🧮 **Mid Sem Marks → Grade / Class / Points Calculator**  
+🎯 **DGPA Calculator (4 Year / Lateral / 3 / 2 / 1 Year)**  
+📚 **CGPA Calculator from Credit Index & Credits**  
 🎨 **Interactive 3D Visualization with Three.js**  
 ⚡ **Real-time Updates**  
 📱 **Mobile-Responsive Design**  
@@ -28,6 +31,9 @@ All formulas are based on MAKAUT's standard academic guidelines:
 - **SGPA → Percentage**: `(SGPA - 0.75) × 10`
 - **YGPA**: `(SGPA_odd + SGPA_even) / 2`
 - **YGPA → Percentage**: `(YGPA - 0.75) × 10`
+- **DGPA (4 Year)**: `(YGPA1 + YGPA2 + 1.5×YGPA3 + 1.5×YGPA4) / 5`
+- **DGPA (Lateral Entry)**: `(YGPA2 + 1.5×YGPA3 + 1.5×YGPA4) / 4`
+- **CGPA**: `Σ(Credit Index) / Σ(Credits)`
 
 > **⚠️ Disclaimer**: These are approximate conversions. Always verify with your official MAKAUT grade card for exact percentages.
 
