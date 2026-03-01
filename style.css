@@ -381,36 +381,6 @@ header p {
     display: none;
 }
 
-.cgpa-rows {
-    display: grid;
-    gap: 14px;
-    margin-top: 12px;
-}
-
-.cgpa-row {
-    background: rgba(15, 23, 42, 0.45);
-    border: 1px solid rgba(100, 150, 255, 0.2);
-    border-radius: 12px;
-    padding: 16px;
-}
-
-.cgpa-row-title {
-    color: #7eb3ff;
-    font-weight: 700;
-    margin-bottom: 10px;
-    font-size: 0.95rem;
-}
-
-.cgpa-row-inputs {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 12px;
-}
-
-.input-group.no-margin {
-    margin-bottom: 0;
-}
-
 .midsem-frame {
     border: 2px solid rgba(0, 245, 255, 0.4);
     border-radius: 12px;
@@ -1430,10 +1400,6 @@ footer a:hover {
 
     .midsem-row label {
         font-size: 1rem;
-    }
-
-    .cgpa-row-inputs {
-        grid-template-columns: 1fr;
     }
 
     .results-grid {

@@ -136,12 +136,6 @@ const dgpaError = document.getElementById('dgpa-error');
 const dgpaValue = document.getElementById('dgpa-value');
 const dgpaPercentage = document.getElementById('dgpa-percentage');
 
-const cgpaSemesterCount = document.getElementById('cgpa-semester-count');
-const cgpaRows = document.getElementById('cgpa-rows');
-const cgpaError = document.getElementById('cgpa-error');
-const cgpaValue = document.getElementById('cgpa-value');
-const cgpaPercentage = document.getElementById('cgpa-percentage');
-
 // ============================================
 // CONVERSION FORMULAS
 // ============================================
@@ -466,101 +460,6 @@ if (dgpaCourse) {
     });
 
     setDGPAVisibleInputs();
-}
-
-// ============================================
-// CGPA CALCULATOR
-// ============================================
-
-function createCGPASemesterRows() {
-    const semesterCount = parseInt(cgpaSemesterCount.value, 10);
-    const rowItems = [];
-
-    for (let index = 1; index <= semesterCount; index++) {
-        rowItems.push(`
-            <div class="cgpa-row">
-                <div class="cgpa-row-title">Semester ${index}</div>
-                <div class="cgpa-row-inputs">
-                    <div class="input-group no-margin">
-                        <label for="credit-index-${index}">Credit Index</label>
-                        <input type="number" id="credit-index-${index}" class="cgpa-credit-index" data-sem="${index}" min="0" step="0.01" placeholder="e.g., 180">
-                    </div>
-                    <div class="input-group no-margin">
-                        <label for="credits-${index}">Credits</label>
-                        <input type="number" id="credits-${index}" class="cgpa-credits" data-sem="${index}" min="0" step="0.01" placeholder="e.g., 24">
-                    </div>
-                </div>
-            </div>
-        `);
-    }
-
-    cgpaRows.innerHTML = rowItems.join('');
-}
-
-function updateCGPACalculation() {
-    const creditIndexInputs = cgpaRows.querySelectorAll('.cgpa-credit-index');
-    const creditInputs = cgpaRows.querySelectorAll('.cgpa-credits');
-
-    let totalCreditIndex = 0;
-    let totalCredits = 0;
-    let hasMissingInput = false;
-    let hasInvalidInput = false;
-
-    creditIndexInputs.forEach((creditIndexInput, index) => {
-        const creditsInput = creditInputs[index];
-        const creditIndexValue = creditIndexInput.value;
-        const creditsValue = creditsInput.value;
-
-        if (!creditIndexValue || !creditsValue) {
-            hasMissingInput = true;
-            return;
-        }
-
-        const creditIndex = parseFloat(creditIndexValue);
-        const credits = parseFloat(creditsValue);
-
-        if (isNaN(creditIndex) || isNaN(credits) || creditIndex < 0 || credits <= 0) {
-            hasInvalidInput = true;
-            return;
-        }
-
-        totalCreditIndex += creditIndex;
-        totalCredits += credits;
-    });
-
-    if (hasInvalidInput || (hasMissingInput && totalCreditIndex > 0)) {
-        cgpaError.classList.add('show');
-    } else {
-        cgpaError.classList.remove('show');
-    }
-
-    if (hasMissingInput || hasInvalidInput || totalCredits <= 0) {
-        cgpaValue.textContent = '--';
-        cgpaPercentage.textContent = '--%';
-        return;
-    }
-
-    const cgpa = totalCreditIndex / totalCredits;
-    const percentage = sgpaToPercentage(cgpa);
-
-    cgpaValue.textContent = cgpa.toFixed(2);
-    cgpaPercentage.textContent = percentage.toFixed(2) + '%';
-
-    rotationSpeed = 0.005 + (percentage / 1000);
-    scaleMultiplier = 0.8 + (percentage / 200);
-}
-
-if (cgpaSemesterCount && cgpaRows) {
-    cgpaSemesterCount.addEventListener('change', () => {
-        createCGPASemesterRows();
-        cgpaError.classList.remove('show');
-        cgpaValue.textContent = '--';
-        cgpaPercentage.textContent = '--%';
-    });
-
-    cgpaRows.addEventListener('input', updateCGPACalculation);
-
-    createCGPASemesterRows();
 }
 
 // ============================================
