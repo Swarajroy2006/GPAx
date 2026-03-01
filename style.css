@@ -84,9 +84,13 @@ nav {
 
 .nav-links {
     display: flex;
-    gap: 40px;
+    gap: 10px;
     list-style: none;
     align-items: center;
+    background: rgba(30, 41, 59, 0.35);
+    border: 1px solid rgba(100, 150, 255, 0.2);
+    border-radius: 999px;
+    padding: 6px;
 }
 
 .nav-links a {
@@ -571,10 +575,51 @@ footer a:hover {
 .footer-credits {
     font-size: 0.85rem;
     color: #64748b;
-    margin-top: 15px;
-    padding-top: 15px;
-    border-top: 1px solid rgba(100, 150, 255, 0.1);
+    margin-top: 14px;
     text-align: center;
+    line-height: 1.7;
+    word-break: break-word;
+}
+
+.footer-maker {
+    margin-top: 12px;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #9fb8e8;
+    text-align: center;
+}
+
+.footer-socials {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 14px;
+    margin-top: 16px;
+}
+
+.social-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 14px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(148, 163, 184, 0.1);
+    border: 1px solid rgba(148, 163, 184, 0.25);
+    color: #d6e2ff;
+    transition: all 0.25s ease;
+}
+
+.social-icon svg {
+    width: 20px;
+    height: 20px;
+}
+
+.social-icon:hover {
+    color: #ffffff;
+    border-color: rgba(0, 245, 255, 0.5);
+    background: rgba(0, 245, 255, 0.14);
+    transform: translateY(-2px);
 }
 
 .footer-credits a {
@@ -885,23 +930,24 @@ footer a:hover {
     .nav-links {
         position: absolute;
         top: 60px;
-        left: 0;
-        right: 0;
-        width: 100%;
+        left: 12px;
+        right: 12px;
+        width: auto;
         flex-direction: column;
-        gap: 0;
+        gap: 8px;
         background: rgba(10, 14, 39, 0.95);
         backdrop-filter: blur(10px);
-        border-bottom: 1px solid rgba(100, 150, 255, 0.2);
+        border: 1px solid rgba(100, 150, 255, 0.25);
+        border-radius: 14px;
         max-height: 0;
         overflow: hidden;
         transition: max-height 0.3s ease;
-        padding: 0;
+        padding: 0 10px;
     }
     
     .nav-links.active {
-        max-height: 300px;
-        padding: 12px 0;
+        max-height: 380px;
+        padding: 10px;
     }
     
     .nav-links li {
@@ -911,9 +957,10 @@ footer a:hover {
     .nav-links a {
         display: block;
         width: 100%;
-        padding: 12px 15px;
+        padding: 10px 14px;
         font-size: 0.85rem;
-        border-bottom: 1px solid rgba(100, 150, 255, 0.1);
+        border: 1px solid rgba(100, 150, 255, 0.15);
+        border-radius: 10px;
         transition: background-color 0.2s ease, color 0.2s ease;
     }
     
@@ -921,17 +968,6 @@ footer a:hover {
     .nav-links a.active {
         background-color: rgba(0, 245, 255, 0.1);
         color: #00f5ff;
-    }
-    
-    .github-link {
-        width: 32px;
-        height: 32px;
-        flex-shrink: 0;
-    }
-    
-    .github-link svg {
-        width: 16px;
-        height: 16px;
     }
     
     .container {
@@ -1060,6 +1096,26 @@ footer a:hover {
         font-size: 0.7rem !important;
         margin-top: 10px;
     }
+
+    .footer-maker {
+        font-size: 0.85rem;
+    }
+
+    .footer-socials {
+        gap: 10px;
+        margin-top: 12px;
+    }
+
+    .social-icon {
+        width: 42px;
+        height: 42px;
+        border-radius: 12px;
+    }
+
+    .social-icon svg {
+        width: 18px;
+        height: 18px;
+    }
     
     .footer-credits a {
         font-size: 0.7rem;
@@ -1139,38 +1195,23 @@ footer a:hover {
 
 /* PAGE NAVIGATION */
 .nav-btn {
-    padding: 8px 16px;
-    border-radius: 8px;
+    padding: 9px 14px;
+    border-radius: 999px;
+    border: 1px solid transparent;
     transition: all 0.3s ease;
     position: relative;
 }
 
-.nav-btn::after {
-    content: '';
-    position: absolute;
-    bottom: -2px;
-    left: 0;
-    width: 0;
-    height: 2px;
-    background: linear-gradient(135deg, #1e64c8 0%, #00f5ff 100%);
-    transition: width 0.3s ease;
-}
-
 .nav-btn:hover {
     background: rgba(0, 245, 255, 0.1);
-}
-
-.nav-btn:hover::after {
-    width: 100%;
+    border-color: rgba(0, 245, 255, 0.35);
 }
 
 .nav-btn.active {
-    background: rgba(0, 245, 255, 0.15);
-    color: #00f5ff;
-}
-
-.nav-btn.active::after {
-    width: 100%;
+    background: linear-gradient(135deg, rgba(30, 100, 200, 0.35) 0%, rgba(0, 245, 255, 0.22) 100%);
+    color: #e5fbff;
+    border-color: rgba(0, 245, 255, 0.45);
+    box-shadow: 0 4px 14px rgba(0, 245, 255, 0.18);
 }
 
 /* PAGE TRANSITIONS */
