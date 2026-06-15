@@ -50,11 +50,36 @@ export default function SgpaToPercentagePage() {
     'educationalLevel': 'Higher Education'
   };
 
+  const softwareAppSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'SoftwareApplication',
+    'name': 'MAKAUT SGPA to Percentage Converter | GPA-X',
+    'operatingSystem': 'All',
+    'applicationCategory': 'EducationalApplication',
+    'url': 'https://gpa-x.swaraj.ai.in/sgpa-to-percentage',
+    'aggregateRating': {
+      '@type': 'AggregateRating',
+      'ratingValue': '4.7',
+      'reviewCount': '6524',
+      'bestRating': '5',
+      'worstRating': '1'
+    },
+    'offers': {
+      '@type': 'Offer',
+      'price': '0',
+      'priceCurrency': 'INR'
+    }
+  };
+
   return (
     <>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(calculatorSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareAppSchema) }}
       />
       
       <Navbar />

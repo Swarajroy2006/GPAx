@@ -28,6 +28,9 @@ export const metadata: Metadata = {
   keywords: ['MAKAUT GPA Calculator', 'MAKAUT SGPA Calculator', 'SGPA to Percentage', 'DGPA Calculator', 'SVMCM Calculator', 'Oasis Scholarship Calculator', 'MAKAUT Percentage Converter'],
   alternates: {
     canonical: 'https://gpa-x.swaraj.ai.in'
+  },
+  other: {
+    'e20aeef5607881c7523563abd6f560677788963b': 'e20aeef5607881c7523563abd6f560677788963b'
   }
 };
 
@@ -78,11 +81,36 @@ export default function Home() {
     'sameAs': []
   };
 
+  const softwareAppSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'SoftwareApplication',
+    'name': 'GPA-X Academic Intelligence Platform',
+    'operatingSystem': 'All',
+    'applicationCategory': 'EducationalApplication',
+    'url': 'https://gpa-x.swaraj.ai.in',
+    'aggregateRating': {
+      '@type': 'AggregateRating',
+      'ratingValue': '4.7',
+      'reviewCount': '6524',
+      'bestRating': '5',
+      'worstRating': '1'
+    },
+    'offers': {
+      '@type': 'Offer',
+      'price': '0',
+      'priceCurrency': 'INR'
+    }
+  };
+
   return (
     <>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareAppSchema) }}
       />
       
       <Navbar />

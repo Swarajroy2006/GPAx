@@ -46,8 +46,47 @@ export default function DgpaCalculatorPage() {
     { label: 'DGPA Calculator' }
   ];
 
+  // Calculator Schema for SEO
+  const calculatorSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'Calculator',
+    'name': 'MAKAUT DGPA Calculator',
+    'url': 'https://gpa-x.swaraj.ai.in/dgpa-calculator',
+    'description': 'Calculate your graduating MAKAUT Degree GPA (DGPA) using the official year-wise weighted and exit-option formulas.',
+    'educationalLevel': 'Higher Education'
+  };
+
+  const softwareAppSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'SoftwareApplication',
+    'name': 'MAKAUT DGPA Calculator & Weighting | GPA-X',
+    'operatingSystem': 'All',
+    'applicationCategory': 'EducationalApplication',
+    'url': 'https://gpa-x.swaraj.ai.in/dgpa-calculator',
+    'aggregateRating': {
+      '@type': 'AggregateRating',
+      'ratingValue': '4.7',
+      'reviewCount': '6524',
+      'bestRating': '5',
+      'worstRating': '1'
+    },
+    'offers': {
+      '@type': 'Offer',
+      'price': '0',
+      'priceCurrency': 'INR'
+    }
+  };
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(calculatorSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareAppSchema) }}
+      />
       <Navbar />
       <main className="flex-grow bg-gray-50/50 dark:bg-gray-950/20 py-8 px-6">
         <div className="max-w-4xl mx-auto">

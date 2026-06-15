@@ -19,9 +19,9 @@ export default function ContactPage() {
   ];
 
   const blocks = [
-    { title: 'General Queries', desc: 'Questions about MAKAUT formulas or scholarship calculations?', info: 'support@gpa-x.swaraj.ai.in', icon: HelpCircle, color: 'text-brand-primary bg-brand-primary/10' },
+    { title: 'General Queries', desc: 'Questions about MAKAUT formulas or scholarship calculations?', info: 'mail@swaraj.ai.in', icon: HelpCircle, color: 'text-brand-primary bg-brand-primary/10' },
     { title: 'Bug Reports & PRs', desc: 'Discovered a rounding error or calculation bug? Log issues on Git.', info: 'github.com/Swarajroy2006/GPAx', icon: Bug, color: 'text-rose-500 bg-rose-500/10' },
-    { title: 'Career Guidance', desc: 'Need help parsing your placement readiness score?', icon: Compass, info: 'mentors@gpa-x.swaraj.ai.in', color: 'text-brand-accent bg-brand-accent/10' }
+    { title: 'Career Guidance', desc: 'Need help parsing your placement readiness score?', icon: Compass, info: 'mail@swaraj.ai.in', color: 'text-brand-accent bg-brand-accent/10' }
   ];
 
   return (

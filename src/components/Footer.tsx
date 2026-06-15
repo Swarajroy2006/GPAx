@@ -18,7 +18,7 @@ export default function Footer() {
           </p>
           <div className="flex items-center gap-2 text-xs text-gray-400 dark:text-gray-500">
             <Mail className="w-3.5 h-3.5" />
-            <span>support@gpa-x.swaraj.ai.in</span>
+            <span>mail@swaraj.ai.in</span>
           </div>
         </div>
 
