@@ -1,4 +1,0 @@
-User-agent: *
-Allow: /
-
-Sitemap: https://gpa-x.swaraj.ai.in/sitemap.xml

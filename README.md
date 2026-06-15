@@ -1,62 +1,36 @@
-# 🎓 GPAx
+This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-**MAKAUT SGPA/YGPA to Percentage Calculator** | *A Community Tool Built for Students*
+## Getting Started
 
-> Empowering MAKAUT students with accurate academic calculations
+First, run the development server:
 
-## About
-
-GPAx is a modern, open-source academic calculator built with love for **Maulana Abul Kalam Azad University of Technology (MAKAUT)** students. 
-
-Formerly known as **WBUT** (West Bengal University of Technology), MAKAUT serves thousands of BCA and engineering students. GPAx makes it easy to convert SGPA to percentage and calculate YGPA in seconds.
-
-**Part of the MAKAUT Community** - Inspired by the open-source spirit of [Apertre](https://apertre.resourcio.in/)
-
-## Features
-
-✨ **Instant SGPA → Percentage Conversion**  
-📊 **Calculate YGPA from Odd & Even Semester SGPA**  
-🧮 **Mid Sem Marks → Grade / Class / Points Calculator**  
-🎯 **DGPA Calculator (4 Year / Lateral / 3 / 2 / 1 Year)**  
-📚 **CGPA Calculator from Credit Index & Credits**  
-🎨 **Interactive 3D Visualization with Three.js**  
-⚡ **Real-time Updates**  
-📱 **Mobile-Responsive Design**  
-🌐 **Works Offline**  
-
-## Formulas Used
-
-All formulas are based on MAKAUT's standard academic guidelines:
-
-- **SGPA → Percentage**: `(SGPA - 0.75) × 10`
-- **YGPA**: `(SGPA_odd + SGPA_even) / 2`
-- **YGPA → Percentage**: `(YGPA - 0.75) × 10`
-- **DGPA (4 Year)**: `(YGPA1 + YGPA2 + 1.5×YGPA3 + 1.5×YGPA4) / 5`
-- **DGPA (Lateral Entry)**: `(YGPA2 + 1.5×YGPA3 + 1.5×YGPA4) / 4`
-- **CGPA**: `Σ(Credit Index) / Σ(Credits)`
-
-> **⚠️ Disclaimer**: These are approximate conversions. Always verify with your official MAKAUT grade card for exact percentages.
-
-1. Install dependencies:
-```bash
-npm install
-```
-
-2. Run the development server:
 ```bash
 npm run dev
+# or
+yarn dev
+# or
+pnpm dev
+# or
+bun dev
 ```
 
-3. Open your browser to the URL shown in the terminal (usually http://localhost:5173)
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-## Project Structure
+You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
-- `index.html` - Main HTML file
-- `main.js` - Three.js application code
-- `package.json` - Project dependencies and scripts
+This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
-## Available Scripts
+## Learn More
 
-- `npm run dev` - Start development server
-- `npm run build` - Build for production
-- `npm run preview` - Preview production build
+To learn more about Next.js, take a look at the following resources:
+
+- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
+- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+
+You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+
+## Deploy on Vercel
+
+The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+
+Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
