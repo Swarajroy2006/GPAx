@@ -3,7 +3,6 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { Menu, X, ChevronDown, Calculator, BookOpen, GraduationCap, Trophy, BarChart3, Bot, Compass } from 'lucide-react';
-import ThemeToggle from './ThemeToggle';
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -84,7 +83,6 @@ export default function Navbar() {
 
       {/* Right Actions */}
       <div className="hidden lg:flex items-center gap-4">
-        <ThemeToggle />
         <Link
           href="/gpa-calculator"
           className="px-5 py-2.5 bg-gradient-to-r from-brand-primary to-brand-secondary hover:shadow-lg hover:shadow-brand-primary/20 text-white rounded-xl text-sm font-semibold transition-all hover:scale-[1.02] active:scale-[0.98]"
@@ -95,7 +93,6 @@ export default function Navbar() {
 
       {/* Mobile Menu Button */}
       <div className="flex items-center gap-3 lg:hidden">
-        <ThemeToggle />
         <button
           onClick={() => setIsOpen(!isOpen)}
           className="p-2 rounded-lg text-gray-600 dark:text-gray-300 hover:bg-gray-155 dark:hover:bg-gray-800 transition-colors"

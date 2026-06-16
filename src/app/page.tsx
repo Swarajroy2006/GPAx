@@ -119,6 +119,8 @@ export default function Home() {
         {/* Hero Banner */}
         <Hero />
 
+
+
         {/* Quick Tools Grid */}
         <section className="py-16 px-6 max-w-7xl mx-auto">
           <div className="text-center mb-12">
@@ -166,6 +168,29 @@ export default function Home() {
                 </Link>
               ))}
             </div>
+          </div>
+        </section>
+
+        {/* Small 3*2 Advertisement Box */}
+        <section className="py-8 px-6 flex justify-center no-print bg-gray-50/30 dark:bg-gray-950/5 border-b border-gray-150 dark:border-gray-900/40">
+          <div className="glass-card w-full max-w-[240px] aspect-[3/2] flex flex-col items-center justify-center text-center p-4 border border-dashed border-brand-primary/30 dark:border-brand-primary/20 bg-brand-primary/5 hover:bg-brand-primary/10 transition-all rounded-xl relative group overflow-hidden shadow-sm">
+            {/* Decorative background glow */}
+            <div className="absolute -inset-10 bg-radial-[circle_at_center,_var(--color-brand-primary)_0%,_transparent_60%] opacity-15 blur-xl pointer-events-none group-hover:scale-110 transition-transform" />
+            
+            <span className="px-2 py-0.5 rounded bg-brand-primary/10 text-brand-primary text-[8px] font-bold uppercase tracking-wider mb-2">
+              Sponsored Slot
+            </span>
+            
+            <h4 className="text-xs font-bold text-gray-950 dark:text-white leading-tight">
+              Book this place for advertisement
+            </h4>
+            
+            <a 
+              href="mailto:mail@swaraj.ai.in" 
+              className="mt-3 px-3 py-1.5 bg-gradient-to-r from-brand-primary to-brand-secondary text-[10px] font-bold text-white rounded-lg hover:shadow-md transition-all truncate max-w-full"
+            >
+              mail - mail@swaraj.ai.in
+            </a>
           </div>
         </section>
 

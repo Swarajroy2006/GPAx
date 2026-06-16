@@ -4,9 +4,9 @@ import { useState, useRef, useEffect } from 'react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import Breadcrumb from '@/components/Breadcrumb';
-import { Card, CardHeader, CardTitle, CardDescription } from '@/components/ui/Card';
+import { Card } from '@/components/ui/Card';
 import { AIMessage } from '@/types';
-import { Bot, Send, User, Sparkles, AlertCircle } from 'lucide-react';
+import { Bot, Send, User } from 'lucide-react';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -102,81 +102,59 @@ export default function AiAssistantPage() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-start">
+          <div className="max-w-3xl mx-auto w-full">
             {/* Chat Interface */}
-            <div className="md:col-span-8 space-y-4">
-              <Card className="h-[450px] flex flex-col p-4">
-                <div className="flex-grow overflow-y-auto space-y-4 pr-2">
-                  {messages.map((msg) => (
-                    <div
-                      key={msg.id}
-                      className={`flex gap-3 max-w-[85%] ${msg.role === 'user' ? 'ml-auto flex-row-reverse' : ''}`}
-                    >
-                      <div className={`w-8 h-8 rounded-xl flex items-center justify-center shrink-0 ${msg.role === 'user' ? 'bg-brand-primary text-white' : 'bg-gray-150 dark:bg-gray-800 text-gray-700 dark:text-gray-300'}`}>
-                        {msg.role === 'user' ? <User className="w-4 h-4" /> : <Bot className="w-4 h-4" />}
-                      </div>
-                      <div className={`p-3.5 rounded-2xl text-sm leading-relaxed ${msg.role === 'user' ? 'bg-brand-primary text-white rounded-tr-none' : 'bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-gray-200 rounded-tl-none border border-gray-200 dark:border-gray-800'}`}>
-                        <p className="whitespace-pre-line">{msg.content}</p>
-                        <span className={`text-[10px] block mt-1.5 text-right ${msg.role === 'user' ? 'text-white/60' : 'text-gray-400'}`}>
-                          {msg.timestamp}
-                        </span>
-                      </div>
-                    </div>
-                  ))}
-                  {loading && (
-                    <div className="flex gap-3 max-w-[85%]">
-                      <div className="w-8 h-8 rounded-xl bg-gray-150 dark:bg-gray-800 text-gray-700 dark:text-gray-300 flex items-center justify-center shrink-0">
-                        <Bot className="w-4 h-4" />
-                      </div>
-                      <div className="p-3.5 rounded-2xl text-sm bg-gray-100 dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-tl-none">
-                        <span className="flex gap-1 items-center">
-                          <span className="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce delay-100" />
-                          <span className="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce delay-200" />
-                          <span className="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce delay-300" />
-                        </span>
-                      </div>
-                    </div>
-                  )}
-                  <div ref={scrollRef} />
-                </div>
-
-                <form onSubmit={handleSendMessage} className="border-t border-gray-100 dark:border-gray-900 pt-3 mt-3 flex gap-2">
-                  <input
-                    type="text"
-                    value={inputMessage}
-                    onChange={(e) => setInputMessage(e.target.value)}
-                    placeholder="Ask about SVMCM, internals, backlog..."
-                    className="flex-grow px-4 py-2 border border-gray-200 dark:border-gray-800 rounded-xl bg-transparent text-sm focus:border-brand-primary outline-none transition-colors text-gray-950 dark:text-white"
-                  />
-                  <button
-                    type="submit"
-                    className="p-2.5 bg-brand-primary text-white rounded-xl hover:shadow-md transition-shadow cursor-pointer"
+            <Card className="h-[500px] flex flex-col p-4">
+              <div className="flex-grow overflow-y-auto space-y-4 pr-2">
+                {messages.map((msg) => (
+                  <div
+                    key={msg.id}
+                    className={`flex gap-3 max-w-[85%] ${msg.role === 'user' ? 'ml-auto flex-row-reverse' : ''}`}
                   >
-                    <Send className="w-4 h-4" />
-                  </button>
-                </form>
-              </Card>
-            </div>
-
-            {/* Sidebar Guidelines */}
-            <div className="md:col-span-4 space-y-4">
-              <Card>
-                <CardHeader>
-                  <CardTitle className="text-sm">Gemini API Integration</CardTitle>
-                </CardHeader>
-                <div className="text-xs text-gray-500 space-y-3">
-                  <div className="flex gap-2 p-2 bg-amber-500/5 border border-amber-500/10 text-amber-500 rounded-lg">
-                    <AlertCircle className="w-4 h-4 shrink-0" />
-                    <span>Gemini integration is ready. Configure endpoints to start AI generation.</span>
+                    <div className={`w-8 h-8 rounded-xl flex items-center justify-center shrink-0 ${msg.role === 'user' ? 'bg-brand-primary text-white' : 'bg-gray-150 dark:bg-gray-800 text-gray-700 dark:text-gray-300'}`}>
+                      {msg.role === 'user' ? <User className="w-4 h-4" /> : <Bot className="w-4 h-4" />}
+                    </div>
+                    <div className={`p-3.5 rounded-2xl text-sm leading-relaxed ${msg.role === 'user' ? 'bg-brand-primary text-white rounded-tr-none' : 'bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-gray-200 rounded-tl-none border border-gray-200 dark:border-gray-800'}`}>
+                      <p className="whitespace-pre-line">{msg.content}</p>
+                      <span className={`text-[10px] block mt-1.5 text-right ${msg.role === 'user' ? 'text-white/60' : 'text-gray-400'}`}>
+                        {msg.timestamp}
+                      </span>
+                    </div>
                   </div>
-                  <p>To enable direct LLM support, edit the messaging handler in: </p>
-                  <code className="block p-2 bg-gray-100 dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-800 truncate font-mono">
-                    src/app/ai-assistant/page.tsx
-                  </code>
-                  <p>Incorporate standard Vercel AI SDK or direct Google Generative AI REST requests to query live data.</p>
-                </div>
-              </Card>
-            </div>
+                ))}
+                {loading && (
+                  <div className="flex gap-3 max-w-[85%]">
+                    <div className="w-8 h-8 rounded-xl bg-gray-150 dark:bg-gray-800 text-gray-700 dark:text-gray-300 flex items-center justify-center shrink-0">
+                      <Bot className="w-4 h-4" />
+                    </div>
+                    <div className="p-3.5 rounded-2xl text-sm bg-gray-100 dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-tl-none">
+                      <span className="flex gap-1 items-center">
+                        <span className="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce delay-100" />
+                        <span className="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce delay-200" />
+                        <span className="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce delay-300" />
+                      </span>
+                    </div>
+                  </div>
+                )}
+                <div ref={scrollRef} />
+              </div>
+
+              <form onSubmit={handleSendMessage} className="border-t border-gray-100 dark:border-gray-900 pt-3 mt-3 flex gap-2">
+                <input
+                  type="text"
+                  value={inputMessage}
+                  onChange={(e) => setInputMessage(e.target.value)}
+                  placeholder="Ask about SVMCM, internals, backlog..."
+                  className="flex-grow px-4 py-2 border border-gray-200 dark:border-gray-800 rounded-xl bg-transparent text-sm focus:border-brand-primary outline-none transition-colors text-gray-950 dark:text-white"
+                />
+                <button
+                  type="submit"
+                  className="p-2.5 bg-brand-primary text-white rounded-xl hover:shadow-md transition-shadow cursor-pointer"
+                >
+                  <Send className="w-4 h-4" />
+                </button>
+              </form>
+            </Card>
           </div>
         </div>
       </main>

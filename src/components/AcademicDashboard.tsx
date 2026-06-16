@@ -158,6 +158,19 @@ export default function AcademicDashboard({ defaultCourse }: { defaultCourse?: C
     }
   }, [defaultCourse, setProfile]);
 
+  // Auto-estimate obtained marks when SGPA and Total Marks are provided
+  useEffect(() => {
+    const sgpaVal = parseFloat(inputSgpa);
+    const totalVal = parseInt(inputTotalMarks);
+    if (!isNaN(sgpaVal) && sgpaVal >= 0 && sgpaVal <= 10 && !isNaN(totalVal) && totalVal > 0) {
+      const pct = gpaToPercentage(sgpaVal);
+      const estObtained = Math.round((pct / 100) * totalVal);
+      setInputObtainedMarks(estObtained >= 0 ? estObtained.toString() : '');
+    } else if (inputSgpa === '' || inputTotalMarks === '') {
+      setInputObtainedMarks('');
+    }
+  }, [inputSgpa, inputTotalMarks]);
+
   if (!isClient) return <div className="p-8 text-center text-gray-500">Loading Academic Workspace...</div>;
 
   // Calculations
@@ -698,13 +711,13 @@ export default function AcademicDashboard({ defaultCourse }: { defaultCourse?: C
                     />
                   </div>
                   <div>
-                    <label className="block text-xs font-bold text-gray-400 dark:text-gray-500 uppercase mb-1">Obt. Marks (Opt.)</label>
+                    <label className="block text-xs font-bold text-gray-400 dark:text-gray-500 uppercase mb-1">Obt. Marks (Auto-filled)</label>
                     <input
                       type="number"
-                      placeholder="e.g. 580"
+                      placeholder="Auto-estimated"
                       value={inputObtainedMarks}
                       onChange={(e) => setInputObtainedMarks(e.target.value)}
-                      className="w-full px-4 py-2 border border-gray-200 dark:border-gray-800 rounded-xl bg-transparent text-sm focus:border-brand-primary outline-none transition-colors text-gray-900 dark:text-white"
+                      className="w-full px-4 py-2 border border-gray-250 dark:border-gray-800 rounded-xl bg-transparent text-sm focus:border-brand-primary outline-none transition-colors text-gray-900 dark:text-white"
                     />
                   </div>
                   <div className="flex gap-2">

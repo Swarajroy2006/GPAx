@@ -166,16 +166,12 @@ export default function SgpaToPercentagePage() {
                   <span className="text-sm text-gray-500 dark:text-gray-400">Equivalent Percentage</span>
                   <h2 className="text-5xl font-extrabold text-brand-primary mt-1.5">{percentage.toFixed(1)}%</h2>
                   
-                  <div className="grid grid-cols-2 gap-4 mt-8">
-                    <div className="p-3 bg-white dark:bg-gray-950 rounded-xl border border-gray-150 dark:border-gray-900">
-                      <span className="text-[10px] uppercase font-bold text-gray-400 block">Letter Grade</span>
-                      <span className={`inline-block px-3 py-1 rounded-full text-sm font-bold mt-1.5 ${gradeDetails.color}`}>
+                  <div className="mt-8">
+                    <div className="p-4 bg-white dark:bg-gray-950 rounded-xl border border-gray-150 dark:border-gray-900 flex justify-between items-center">
+                      <span className="text-[10px] uppercase font-bold text-gray-400">Letter Grade</span>
+                      <span className={`inline-block px-3 py-1 rounded-full text-sm font-bold ${gradeDetails.color}`}>
                         {gradeDetails.grade} ({gradeDetails.classification})
                       </span>
-                    </div>
-                    <div className="p-3 bg-white dark:bg-gray-950 rounded-xl border border-gray-150 dark:border-gray-900">
-                      <span className="text-[10px] uppercase font-bold text-gray-400 block">Division Status</span>
-                      <span className="text-xs font-bold text-gray-700 dark:text-gray-200 block mt-2.5 truncate">{division}</span>
                     </div>
                   </div>
 
