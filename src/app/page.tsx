@@ -5,6 +5,8 @@ import CTASection from '@/components/CTASection';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { Card, CardHeader, CardTitle, CardDescription } from '@/components/ui/Card';
+import AdsterraBanner from '@/components/AdsterraBanner';
+import { AD_KEYS } from '@/lib/adConfig';
 import { 
   Calculator, 
   Award, 
@@ -171,25 +173,38 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Small 3*2 Advertisement Box */}
-        <section className="py-8 px-6 flex justify-center no-print bg-gray-50/30 dark:bg-gray-950/5 border-b border-gray-150 dark:border-gray-900/40">
-          <div className="glass-card w-full max-w-[240px] aspect-[3/2] flex flex-col items-center justify-center text-center p-4 border border-dashed border-brand-primary/30 dark:border-brand-primary/20 bg-brand-primary/5 hover:bg-brand-primary/10 transition-all rounded-xl relative group overflow-hidden shadow-sm">
+        {/* Ads and Sponsorship Section */}
+        <section className="py-8 px-6 flex flex-col md:flex-row items-center justify-center gap-8 no-print bg-gray-50/30 dark:bg-gray-950/5 border-b border-gray-150 dark:border-gray-900/40">
+          {/* Adsterra 300x250 ad */}
+          <div className="flex justify-center items-center">
+            <AdsterraBanner 
+              id={AD_KEYS.RECTANGLE_300x250} 
+              width={300} 
+              height={250} 
+            />
+          </div>
+
+          {/* Direct Sponsorship slot */}
+          <div className="glass-card w-full max-w-[300px] h-[250px] flex flex-col items-center justify-center text-center p-6 border border-dashed border-brand-primary/30 dark:border-brand-primary/20 bg-brand-primary/5 hover:bg-brand-primary/10 transition-all rounded-xl relative group overflow-hidden shadow-sm">
             {/* Decorative background glow */}
             <div className="absolute -inset-10 bg-radial-[circle_at_center,_var(--color-brand-primary)_0%,_transparent_60%] opacity-15 blur-xl pointer-events-none group-hover:scale-110 transition-transform" />
             
             <span className="px-2 py-0.5 rounded bg-brand-primary/10 text-brand-primary text-[8px] font-bold uppercase tracking-wider mb-2">
-              Sponsored Slot
+              Direct Sponsorship
             </span>
             
-            <h4 className="text-xs font-bold text-gray-950 dark:text-white leading-tight">
-              Book this place for advertisement
+            <h4 className="text-sm font-bold text-gray-950 dark:text-white leading-tight">
+              Advertise with GPA-X
             </h4>
+            <p className="text-xs text-gray-500 dark:text-gray-400 mt-2 px-4">
+              Get your product or service in front of thousands of MAKAUT university students daily.
+            </p>
             
             <a 
               href="mailto:mail@swaraj.ai.in" 
-              className="mt-3 px-3 py-1.5 bg-gradient-to-r from-brand-primary to-brand-secondary text-[10px] font-bold text-white rounded-lg hover:shadow-md transition-all truncate max-w-full"
+              className="mt-4 px-4 py-2 bg-gradient-to-r from-brand-primary to-brand-secondary text-xs font-bold text-white rounded-lg hover:shadow-md transition-all truncate max-w-full"
             >
-              mail - mail@swaraj.ai.in
+              Contact: mail@swaraj.ai.in
             </a>
           </div>
         </section>

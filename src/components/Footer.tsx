@@ -1,11 +1,31 @@
 import Link from 'next/link';
 import { GraduationCap, Mail, Shield, AlertTriangle } from 'lucide-react';
+import AdsterraBanner from '@/components/AdsterraBanner';
+import { AD_KEYS } from '@/lib/adConfig';
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
     <footer className="bg-white dark:bg-gray-950 border-t border-gray-200 dark:border-gray-900 py-12 px-6 md:px-12 mt-auto">
+      {/* Responsive Adsterra Banner placement at the top of the footer */}
+      <div className="max-w-7xl mx-auto mb-8 flex justify-center items-center no-print border-b border-gray-100 dark:border-gray-900 pb-8">
+        <div className="hidden md:block">
+          <AdsterraBanner 
+            id={AD_KEYS.LEADERBOARD_728x90} 
+            width={728} 
+            height={90} 
+          />
+        </div>
+        <div className="block md:hidden">
+          <AdsterraBanner 
+            id={AD_KEYS.RECTANGLE_300x250} 
+            width={300} 
+            height={250} 
+          />
+        </div>
+      </div>
+
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
         {/* Brand Column */}
         <div className="flex flex-col gap-4">

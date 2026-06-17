@@ -8,6 +8,8 @@ import { Card, CardHeader, CardTitle, CardDescription } from '@/components/ui/Ca
 import { gpaToPercentage, percentageToGrade, getDivision } from '@/lib/formulas';
 import { Calculator, HelpCircle } from 'lucide-react';
 import Link from 'next/link';
+import AdsterraNativeBanner from '@/components/AdsterraNativeBanner';
+import { AD_KEYS } from '@/lib/adConfig';
 
 export default function CgpaToPercentagePage() {
   const [cgpa, setCgpa] = useState<string>('8.0');
@@ -187,8 +189,14 @@ export default function CgpaToPercentagePage() {
             </div>
           </div>
 
+          {/* Adsterra Native Banner Placement */}
+          <AdsterraNativeBanner 
+            id={AD_KEYS.NATIVE_BANNER_ID} 
+            domain={AD_KEYS.NATIVE_BANNER_DOMAIN} 
+          />
+
           {/* Educational Content / Guide */}
-          <div className="mt-12 space-y-6 text-sm text-gray-650 dark:text-gray-400 leading-relaxed border-t border-gray-200 dark:border-gray-900 pt-8">
+          <div className="mt-12 space-y-6 text-sm text-gray-655 dark:text-gray-400 leading-relaxed border-t border-gray-200 dark:border-gray-900 pt-8">
             <h3 className="text-xl font-bold text-gray-950 dark:text-white">Understanding CGPA in MAKAUT</h3>
             <p>
               Cumulative Grade Point Average (CGPA) represents the overall academic standing of a student across all semesters. It is calculated by dividing the sum of the credit points scored in all semesters by the sum of all credits taken.
